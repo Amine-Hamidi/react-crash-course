@@ -1,18 +1,17 @@
-import Post from "./post";
+
 import Classes from './ListPosts.module.css';
-import NewPost from "./NewPost";
+import Modal from './Modal';
+import NewPost from './NewPost';
+import Post from './post';
 import { useState } from "react";
-import Modal from "./Modal";
-import { use } from "react";
 
 
-function ListPosts() {
+
+function ListPosts({ isPosting, onStopPosting }) {
     const [enteredBody, setEnteredBody] = useState('');  
     const [enteredAuthor, setEnteredAuthor] = useState('');
-    const [modalIsVisible, setModalIsVisible] = useState(true)
-      function hideModalHandler() {
-        setModalIsVisible(false);
-      }
+    
+      
       function handleChange(event) { 
         setEnteredBody(event.target.value);
       }
@@ -22,8 +21,8 @@ function ListPosts() {
       }
     return (
         <>
-          {modalIsVisible && (
-            <Modal onClose={hideModalHandler} >  
+          {isPosting && (
+            <Modal onClose={onStopPosting} >  
               <NewPost 
                 onChangeBody={handleChange} 
                 onChangeAuthor={handleChangeAuthor} 
@@ -36,6 +35,6 @@ function ListPosts() {
             </ul>
         </>
     );
-}
+}   
 
 export default ListPosts;
