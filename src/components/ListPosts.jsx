@@ -25,7 +25,8 @@ function ListPosts({ isPosting, onStopPosting }) {
             <Modal onClose={onStopPosting} >  
               <NewPost 
                 onChangeBody={handleChange} 
-                onChangeAuthor={handleChangeAuthor} 
+                onChangeAuthor={handleChangeAuthor}
+                onCancel={onStopPosting} 
               />
             </Modal>
           )}
