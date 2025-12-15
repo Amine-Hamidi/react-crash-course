@@ -10,12 +10,15 @@ import Post from './post';
 
 function ListPosts({ isPosting, onStopPosting }) {
     const [posts, setPosts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function fetchPosts() {
+            setIsLoading(true);
             const response = await fetch('http://localhost:8080/posts');
             const resData = await response.json();
             setPosts(resData.posts);
+            setIsLoading(false);
         }
         fetchPosts();
       }, []);
@@ -40,18 +43,23 @@ function ListPosts({ isPosting, onStopPosting }) {
               />
             </Modal>
           )}
-            {posts.length>0 &&(
+            {!isLoading && posts.length>0 &&(
               <ul className={Classes.posts}>
                   {posts.map((post) => (
                     <Post key={post.body} author={post.author} body={post.body} />
                 ))} 
             </ul>
             )}
-            {posts.length===0 &&( 
+            {!isLoading && posts.length===0 &&( 
               <div style={ {textAlign:'center', color:'white'}}>
                 <h2>There are no posts yet.</h2>
                 <p>Start adding some!</p>
               </div>
+              )}
+              {isLoading && (
+                <div style={{ textAlign: 'center', color: 'white' }}>
+                  <h2>Loading...</h2>
+                </div>
               )}
         </>
     );
